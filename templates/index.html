@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0f11;
+      --surface: #16181c;
+      --border: #2a2d35;
+      --accent: #7fff6a;
+      --muted: #555b6a;
+      --text: #e8eaf0;
+      --sub: #8b91a1;
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.8rem;
+      color: var(--text);
+    }
+
+    h1 span { color: var(--accent); }
+
+    label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 0.4rem;
+    }
+
+    .field { margin-bottom: 1.2rem; }
+
+    input[type="text"], select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      padding: 0.65rem 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    input[type="text"]:focus, select:focus { border-color: var(--accent); }
+
+    /* Token Slider */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      transition: transform 0.15s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+
+    .token-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--accent);
+      color: #0a0a0a;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-top: 0.4rem;
+    }
+
+    button:hover { opacity: 0.88; }
+    button:active { transform: scale(0.98); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Output */
+    .output {
+      margin-top: 1.4rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+      display: none;
+    }
+
+    .output.visible { display: block; }
+
+    .output-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem;
+      min-height: 60px;
+      word-break: break-word;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.7rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .meta span { color: var(--sub); }
+    .meta .score { color: var(--accent); }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 0.4rem;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>TEXT <span>SAMPLING</span></h1>
+
+  <div class="field">
+    <label>Prompt</label>
+    <input type="text" id="prompt" placeholder="starting word(s)…">
+  </div>
+
+  <div class="field">
+    <label>Tokens to generate — <span id="tokenDisplay">20</span></label>
+    <div class="slider-row">
+      <input type="range" id="length" min="5" max="1000" value="20"
+             oninput="document.getElementById('tokenDisplay').textContent = this.value">
+      <div class="token-val" id="tokenVal">20</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Sampling Method</label>
+    <select id="method">
+      <option value="likelihood">Likelihood (Contextual)</option>
+      <option value="random">Random (Uniform)</option>
+    </select>
+  </div>
+
+  <button id="btn" onclick="generate()">Generate →</button>
+
+  <div class="output" id="output">
+    <div class="output-text" id="outputText"></div>
+    <div class="meta">
+      <span id="metaMethod">—</span>
+      <span class="score" id="metaScore">—</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('length');
+  const tokenVal = document.getElementById('tokenVal');
+  const tokenDisplay = document.getElementById('tokenDisplay');
+
+  slider.oninput = () => {
+    tokenVal.textContent = slider.value;
+    tokenDisplay.textContent = slider.value;
+  };
+
+  async function generate() {
+    const btn = document.getElementById('btn');
+    const out = document.getElementById('output');
+    const outText = document.getElementById('outputText');
+
+    btn.disabled = true;
+    outText.innerHTML = '<span class="dot"></span> generating…';
+    out.classList.add('visible');
+
+    try {
+      const res = await fetch('/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: document.getElementById('prompt').value,
+          method: document.getElementById('method').value,
+          length: parseInt(slider.value)
+        })
+      });
+
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      outText.textContent = data.output;
+      document.getElementById('metaMethod').textContent = data.method.toUpperCase();
+      document.getElementById('metaScore').textContent = `log-likelihood: ${data.score}`;
+    } catch (e) {
+      outText.textContent = '⚠ ' + e.message;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
