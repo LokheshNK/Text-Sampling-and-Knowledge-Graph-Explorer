@@ -6,25 +6,27 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-# Robust NLTK setup outside the app start to avoid double-download on reload
+# Setup NLTK (needed for first cold start on Vercel)
 def setup_nltk():
-    pkgs = ['punkt', 'stopwords', 'averaged_perceptron_tagger', 'averaged_perceptron_tagger_eng', 'maxent_ne_chunker', 'words']
-    for pkg in pkgs:
-        try:
-            nltk.data.find(pkg)
-        except:
-            try:
-                nltk.download(pkg, quiet=True)
-            except:
-                pass
+    try:
+        # On Vercel, the homedir is /tmp for writable data
+        if os.environ.get('VERCEL'):
+            nltk.data.path.append("/tmp/nltk_data")
+        pkgs = ['punkt', 'stopwords', 'averaged_perceptron_tagger', 'averaged_perceptron_tagger_eng', 'maxent_ne_chunker', 'words']
+        for pkg in pkgs:
+           try:
+               nltk.data.find(pkg)
+           except:
+               nltk.download(pkg, quiet=True)
+    except:
+        pass
 
-# Only run setup once in main
-if __name__ == "__main__":
-    setup_nltk()
+setup_nltk()
 
 app = Flask(__name__)
 DATA_FILE = "war_and_peace.txt"
-MODEL_FILE = "w2v.model"
+# Vercel needs writable /tmp for model storage
+MODEL_FILE = "/tmp/w2v.model" if os.environ.get('VERCEL') else "w2v.model"
 
 def load_models(filename):
     if not os.path.exists(filename):
