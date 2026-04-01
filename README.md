@@ -4,13 +4,13 @@ A web-based text generation application that uses bigram models to sample and ge
 
 ## Features
 
-- **Bigram Model**: Analyzes word pairs from text corpora to predict next words
-- **Two Sampling Methods**:
-  - **Likelihood Sampling**: Context-aware generation based on statistical probabilities
+- **Bigram & Embedding Models**: Analyzes word pairs and vector similarities to generate text
+- **Three Sampling Methods**:
+  - **Statistical Likelihood**: Context-aware generation based on bigram frequencies
+  - **Vector Semantic (Word2Vec)**: Uses word embeddings to find conceptually related successors
   - **Random Sampling**: Uniform random selection for creative outputs
-- **Interactive Web Interface**: Clean, modern UI with real-time generation
-- **Customizable Prompts**: Start generation with your own seed words
-- **Adjustable Length**: Generate text from 5 to 1000 tokens
+- **Interactive Knowledge Graph**: Visualize the semantic structure of any article using Word2Vec embeddings
+- **NexusAI Interface**: Premium, glassmorphism-inspired UI with real-time feedback
 - **Data Downloader**: Built-in script to download public domain books from Project Gutenberg
 
 ## Installation
