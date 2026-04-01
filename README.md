@@ -1,4 +1,4 @@
-# NexusAI | Text Sampling & Knowledge Graph Explorer
+# Text Sampling & Knowledge Graph Explorer
 
 A state-of-the-art web application for text generation and semantic analysis. This project combines traditional statistical bigram models with modern Word2Vec embeddings and interactive knowledge mapping.
 
