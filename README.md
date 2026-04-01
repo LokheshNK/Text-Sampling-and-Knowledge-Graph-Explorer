@@ -1,102 +1,79 @@
-# Text Sampling
+# NexusAI | Text Sampling & Knowledge Graph Explorer
 
-A web-based text generation application that uses bigram models to sample and generate text based on statistical patterns from literature. Built with Flask and featuring an interactive web interface for real-time text generation.
+A state-of-the-art web application for text generation and semantic analysis. This project combines traditional statistical bigram models with modern Word2Vec embeddings and interactive knowledge mapping.
 
-## Features
+## ✨ Features
 
-- **Bigram & Embedding Models**: Analyzes word pairs and vector similarities to generate text
-- **Three Sampling Methods**:
-  - **Statistical Likelihood**: Context-aware generation based on bigram frequencies
-  - **Vector Semantic (Word2Vec)**: Uses word embeddings to find conceptually related successors
-  - **Random Sampling**: Uniform random selection for creative outputs
-- **Interactive Knowledge Graph**: Visualize the semantic structure of any article using Word2Vec embeddings
-- **NexusAI Interface**: Premium, glassmorphism-inspired UI with real-time feedback
-- **Data Downloader**: Built-in script to download public domain books from Project Gutenberg
+-   **Dual-Core Intelligence**: 
+    -   **Bigram Logic**: Statistical prediction based on word frequency.
+    -   **Word2Vec Embeddings**: Semantic prediction based on vector similarity in an N-dimensional space.
+-   **Advanced Sampling Methods**:
+    -   **Likelihood (Bigram)**: Predicts the most probable next word based on historical counts.
+    -   **Vector Semantic (Word2Vec)**: Finds conceptually related successors, perfect for creative and abstract generation.
+    -   **Random**: Uniform selection for pure creativity.
+-   **Semantic Knowledge Graph**:
+    -   Analyze any article or text snippet in real-time.
+    -   **NLP Extraction**: Automatically filters important Entities and Proper Nouns (People, Places, Organizations).
+    -   **Hybrid Links**: Connects concepts using both semantic similarity weights and sentence-based co-occurrence.
+    -   **Interactive Visualization**: Explore the web of concepts with a high-performance, stabilized network graph.
+-   **Premium Interface**:
+    -   Modern Dark Mode with Glassmorphism aesthetics.
+    -   Real-time generation feedback and log-likelihood scoring.
+    -   Responsive design for various screen sizes.
 
-## Installation
+## 🚀 Installation & Setup
 
 ### Prerequisites
 
-- Python 3.7 or higher
-- Flask (`pip install flask`)
+-   Python 3.8+
+-   `pip` (Python package manager)
 
-### Setup
+### Installation
 
-1. Clone or download this repository
-2. Install dependencies:
-   ```bash
-   pip install flask
-   ```
-3. Download training data (optional - see Data section below):
-   ```bash
-   python download_data.py
-   ```
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/LokheshNK/Text-Sampling.git
+    cd Text-Sampling
+    ```
 
-## Usage
+2.  **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-### Running the Application
+3.  **Download Training Data**:
+    By default, the app uses *War and Peace* for training the initial models.
+    ```bash
+    python download_data.py
+    ```
 
-1. Start the Flask server:
-   ```bash
-   python app.py
-   ```
+### Starting the Server
 
-2. Open your browser and navigate to `http://localhost:5000`
-
-3. Enter a prompt word(s) in the text field
-4. Select your preferred sampling method
-5. Adjust the number of tokens to generate (5-1000)
-6. Click "Generate →" to create text
-
-### Data
-
-The application uses "War and Peace" by Leo Tolstoy as default training data. The text file `war_and_peace.txt` should be in the root directory.
-
-To use different books, run:
 ```bash
-python download_data.py
+python app.py
 ```
 
-Available books include:
-- Sherlock Holmes
-- Pride and Prejudice
-- Moby Dick
-- War and Peace (default)
-- Alice's Adventures in Wonderland
-- Frankenstein
+> [!NOTE]
+> On the first run, the app will download necessary NLTK language packages and train the `w2v.model` locally. This may take 10-20 seconds depending on your internet speed. Subsequent starts will be nearly instantaneous.
 
-## Project Structure
+## 📁 Project Structure
 
-```
-text-sampling/
-├── app.py                 # Main Flask application
-├── download_data.py       # Data download script
-├── war_and_peace.txt      # Training data (War and Peace)
-├── templates/
-│   └── index.html         # Web interface
-└── README.md             # This file
-```
+-   `app.py`: The core Flask backend, housing the Word2Vec model and Knowledge Graph logic.
+-   `download_data.py`: Utility to fetch large-scale literature from Project Gutenberg.
+-   `templates/index.html`: The interactive NexusAI web interface.
+-   `requirements.txt`: Manages all AI and Web dependencies.
+-   `w2v.model`: The persisted Word2Vec model trained on the corpus.
 
-## How It Works
+## 🛠️ Technology Stack
 
-1. **Model Training**: The application loads text and creates a bigram frequency map
-2. **Text Generation**: For each new word, it either:
-   - Uses likelihood sampling: Selects next word based on observed frequencies
-   - Uses random sampling: Chooses uniformly from vocabulary
-3. **Scoring**: Tracks log-likelihood scores for generated sequences
+-   **Backend**: Flask (Python)
+-   **AI/NLP**: Gensim (Word2Vec), NLTK (Tokenization/POS Tagging)
+-   **Frontend**: Vis.js (Network Visualization), Vanilla CSS/HTML/JS
+-   **Visuals**: Outfit/JetBrains Mono Typography, CSS Glassmorphism
 
-## Technical Details
+## 📄 License
 
-- **Language**: Python 3
-- **Framework**: Flask
-- **Frontend**: HTML5, CSS3, JavaScript (vanilla)
-- **Model**: Bigram language model with frequency-based probabilities
-- **Tokenization**: Word-level using regex pattern `\b[\w']+\b`
+This project is licensed under the MIT License - using public domain literature from Project Gutenberg.
 
-## Contributing
-
-Feel free to submit issues, feature requests, or pull requests to improve the application.
-
-## License
-
-This project uses public domain text from Project Gutenberg. The code is available under the MIT License.
+---
+*Built for the Advanced AI Package Development Course*
