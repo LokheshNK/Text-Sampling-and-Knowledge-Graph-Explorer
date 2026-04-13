@@ -4,11 +4,7 @@ import re
 # URLs for large public domain books
 BOOK_URLS = {
     "sherlock_holmes": "https://www.gutenberg.org/files/1661/1661-0.txt",  # ~100k words
-    "pride_prejudice": "https://www.gutenberg.org/files/1342/1342-0.txt",  # ~120k words
-    "moby_dick": "https://www.gutenberg.org/files/2701/2701-0.txt",        # ~200k words
-    "war_and_peace": "https://www.gutenberg.org/files/2600/2600-0.txt",    # ~600k words
-    "alice_wonderland": "https://www.gutenberg.org/files/11/11-0.txt",     # ~27k words
-    "frankenstein": "https://www.gutenberg.org/files/84/84-0.txt",         # ~75k words
+        # ~75k words
 }
 
 def download_book(url, filename):

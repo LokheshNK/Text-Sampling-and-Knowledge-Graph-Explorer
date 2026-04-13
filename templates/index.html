@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text Sampling & Knowledge Graph</title>
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
-  <!-- Vis.js for Graph -->
   <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
   
   <style>
@@ -26,11 +24,7 @@
       --glass: rgba(255, 255, 255, 0.03);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Outfit', sans-serif;
@@ -62,11 +56,7 @@
       -webkit-text-fill-color: transparent;
     }
 
-    header p {
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-      font-weight: 300;
-    }
+    header p { color: var(--text-muted); margin-top: 0.5rem; font-weight: 300; }
 
     main {
       flex: 1;
@@ -102,10 +92,7 @@
       box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
     }
 
-    .content-section {
-      display: none;
-      animation: fadeIn 0.5s ease-out;
-    }
+    .content-section { display: none; animation: fadeIn 0.5s ease-out; }
 
     .content-section.active {
       display: grid;
@@ -114,9 +101,7 @@
     }
 
     @media (max-width: 900px) {
-      .content-section.active {
-        grid-template-columns: 1fr;
-      }
+      .content-section.active { grid-template-columns: 1fr; }
     }
 
     @keyframes fadeIn {
@@ -133,31 +118,13 @@
       height: fit-content;
     }
 
-    .controls-card {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    .controls-card { display: flex; flex-direction: column; gap: 1.5rem; }
 
-    h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    h2 { font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
-    label {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
+    label { font-size: 0.875rem; color: var(--text-muted); font-weight: 500; }
 
     input, select, textarea {
       background: rgba(0, 0, 0, 0.3);
@@ -170,10 +137,7 @@
       transition: all 0.2s;
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 150px;
-    }
+    textarea { resize: vertical; min-height: 150px; }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
@@ -197,27 +161,11 @@
       margin-top: 0.5rem;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Result Card */
-    .result-card {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .result-card { display: flex; flex-direction: column; gap: 1rem; }
 
     .output-box {
       background: rgba(0, 0, 0, 0.5);
@@ -232,11 +180,7 @@
       white-space: pre-wrap;
     }
 
-    .meta-tags {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
+    .meta-tags { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
     .tag {
       background: var(--glass);
@@ -248,12 +192,8 @@
       color: var(--text-muted);
     }
 
-    .tag.highlight {
-      color: var(--accent);
-      border-color: rgba(16, 185, 129, 0.3);
-    }
+    .tag.highlight { color: var(--accent); border-color: rgba(16, 185, 129, 0.3); }
 
-    /* Graph specific */
     #kg-container {
       width: 100%;
       height: 600px;
@@ -262,22 +202,6 @@
       margin-top: 1rem;
     }
 
-    .full-width-content {
-      grid-column: 1 / -1 !important;
-    }
-
-    /* Animations */
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
-    }
-
-    /* Loading state */
     .loader {
       display: inline-block;
       width: 20px;
@@ -288,9 +212,7 @@
       animation: spin 1s ease-in-out infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     footer {
       text-align: center;
@@ -300,6 +222,7 @@
       border-top: 1px solid var(--border);
     }
 
+    select option { background: #1f2937; color: var(--text); }
   </style>
 </head>
 <body>
@@ -311,15 +234,15 @@
 
   <main>
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('gen')">✦ Text Generator</button>
-      <button class="tab-btn" onclick="switchTab('kg')">⬡ Knowledge Graph</button>
+      <button class="tab-btn active" onclick="switchTab('gen', event)">✦ Text Generator</button>
+      <button class="tab-btn" onclick="switchTab('kg', event)">⬡ Knowledge Graph</button>
     </div>
 
     <!-- Generation Section -->
     <div id="section-gen" class="content-section active">
       <div class="card controls-card">
         <h2><span style="color: var(--primary)">⚡</span> Generation Tuning</h2>
-        
+
         <div class="form-group">
           <label for="prompt">Starting Context (Seed)</label>
           <input type="text" id="prompt" placeholder="e.g. In the midst of the battlefield...">
@@ -329,7 +252,7 @@
           <label for="method">Sampling Methodology</label>
           <select id="method">
             <option value="likelihood">Statistical Likelihood (Bigram)</option>
-            <option value="embeddings">Vector Semantic (Word2Vec)</option>
+            <option value="word2vec">Vector Semantic (Word2Vec)</option>
             <option value="random">Creative Random</option>
           </select>
         </div>
@@ -359,10 +282,12 @@
     <div id="section-kg" class="content-section">
       <div class="card controls-card">
         <h2><span style="color: var(--primary)">🔍</span> Semantic Analysis</h2>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Provide an article or text snippet to visualize its semantic structure using Word2Vec embeddings.</p>
-        
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Paste any article or text. Key terms are extracted via POS tagging and connected by sentence co-occurrence.
+        </p>
+
         <div class="form-group">
-          <label for="article">Input Article / Script</label>
+          <label for="article">Input Article / Text</label>
           <textarea id="article" placeholder="Paste your article here to build the knowledge graph..."></textarea>
         </div>
 
@@ -375,27 +300,26 @@
         <h2><span style="color: var(--accent)">🌐</span> Knowledge Graph Explorer</h2>
         <div id="kg-container"></div>
         <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
-          * Nodes represent key terms. Edges suggest semantic relationships learned from the corpus.
+          * Nodes = key terms (sized by frequency). Edges = terms that co-occur in the same sentence.
         </p>
       </div>
     </div>
   </main>
 
   <footer>
-    Built with Python, Word2Vec, and Flask • Advanced AI Package
+    Built with Python, NLTK, and Flask
   </footer>
 
   <script>
     let network = null;
 
-    function switchTab(tab) {
+    function switchTab(tab, event) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-      
+
       event.target.classList.add('active');
       document.getElementById('section-' + tab).classList.add('active');
-      
-      // If KG tab, we might need to resize the network
+
       if (tab === 'kg' && network) {
         setTimeout(() => network.fit(), 200);
       }
@@ -405,7 +329,7 @@
       const btn = document.getElementById('gen-btn');
       const out = document.getElementById('output-text');
       const method = document.getElementById('method').value;
-      
+
       btn.disabled = true;
       btn.innerHTML = '<span class="loader"></span> Sampling...';
       out.style.opacity = '0.5';
@@ -420,14 +344,13 @@
             length: parseInt(document.getElementById('length').value)
           })
         });
-        
+
         const data = await response.json();
-        
         if (data.error) throw new Error(data.error);
 
         out.innerText = data.output;
         document.getElementById('meta-method').innerText = data.method.toUpperCase();
-        document.getElementById('meta-score').innerText = `Log-Likelihood: ${data.score}`;
+        document.getElementById('meta-score').innerText = `Score: ${data.score}`;
       } catch (err) {
         out.innerText = 'Error: ' + err.message;
       } finally {
@@ -440,11 +363,11 @@
     async function buildKG() {
       const btn = document.getElementById('kg-btn');
       const text = document.getElementById('article').value;
-      
-      if (!text) return alert("Please provide some text to analyze.");
+
+      if (!text.trim()) return alert("Please provide some text to analyze.");
 
       btn.disabled = true;
-      btn.innerHTML = '<span class="loader"></span> Analyzing Semantic Relationships...';
+      btn.innerHTML = '<span class="loader"></span> Building Graph...';
 
       try {
         const response = await fetch('/kg', {
@@ -452,10 +375,21 @@
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ article: text })
         });
-        
+
         const data = await response.json();
-        
+
+        if (!data.nodes.length) {
+          alert("No key terms found. Try a longer article.");
+          return;
+        }
+
         const container = document.getElementById('kg-container');
+
+        if (network) {
+          network.destroy();
+          network = null;
+        }
+
         const nodes = new vis.DataSet(data.nodes.map(n => ({
           ...n,
           color: {
@@ -469,49 +403,54 @@
           borderWidth: 2,
           borderWidthSelected: 4
         })));
-        
+
         const edges = new vis.DataSet(data.edges.map(e => ({
           ...e,
-          color: { 
-            color: 'rgba(99, 102, 241, 0.4)', 
+          color: {
+            color: 'rgba(99, 102, 241, 0.4)',
             highlight: '#10b981',
             hover: '#34d399'
           },
-          width: 2, // Fixed thin line, not a thick path
-          smooth: false, // Straight lines were requested
+          width: 2,
+          smooth: false,
           hoverWidth: 3,
           selectionWidth: 3
         })));
 
         const options = {
+          layout: { improvedLayout: true },
           nodes: { scaling: { min: 15, max: 40 } },
           physics: {
             enabled: true,
-            barnesHut: {
-              gravitationalConstant: -20000,
-              centralGravity: 0.6,
-              springLength: 200,
-              avoidOverlap: 1
-            },
             stabilization: {
               enabled: true,
               iterations: 1000,
-              updateInterval: 50
+              updateInterval: 25,
+              onlyDynamicEdges: false
+            },
+            barnesHut: {
+              gravitationalConstant: -20000,
+              centralGravity: 0.6,
+              springLength: 180,
+              avoidOverlap: 1
             }
           },
-          interaction: { 
+          interaction: {
             hover: true,
             tooltipDelay: 100,
             zoomView: true,
             dragNodes: true
           }
         };
-        
+
         network = new vis.Network(container, { nodes, edges }, options);
 
-        // FREEZE physics once layout is settled to prevent spinning/jiggling
-        network.on("stabilized", function (params) {
-           network.setOptions({ physics: { enabled: false } });
+        network.once("stabilizationIterationsDone", function () {
+          network.setOptions({ physics: { enabled: false } });
+        });
+
+        network.on("stabilized", function () {
+          network.setOptions({ physics: { enabled: false } });
         });
 
       } catch (err) {
